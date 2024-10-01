@@ -1,4 +1,5 @@
 const AppError = require("../../error");
+const { jwtDecode } = require('jwt-decode');
 
 function verifyLogin(req, _, next){
     const { email, password } = req.body;
@@ -12,4 +13,18 @@ function verifyLogin(req, _, next){
     next();
 }
 
-module.exports = { verifyLogin }
+function verifyJwt(req, _, next){
+    const { token } = req.headers;
+
+    if(!token) throw new AppError('No token provider', 403);
+
+    const decode = jwtDecode(token);
+    
+    const { exp } = decode;
+    if(exp+'000' < Date.now()) throw new AppError('No token valid', 401);
+
+    req.decode = decode
+    next();
+}
+
+module.exports = { verifyLogin, verifyJwt }
