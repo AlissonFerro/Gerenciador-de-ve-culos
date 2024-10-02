@@ -1,17 +1,16 @@
 const AppError = require('../../error'); 
 
-function handleError(err, _, res) {
+function handleError(err, _, res, next) {
     let status = 500;
 
-    const response = {
-        message: err.message || 'Internal Server Error', 
-    };
+    const message = err.message || 'Internal Server Error';
+
 
     if (err instanceof AppError) {
         status = err.statusCode || 400; 
     }
-
-    return res.status(status).json(response);
+    
+    return res.status(status).json({message});
 }
 
 module.exports = handleError;

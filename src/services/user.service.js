@@ -10,7 +10,7 @@ async function getAllUsersService() {
 }
 
 async function getUserService(id) {
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id);    
     if (!user) throw new AppError('User not found', 404);   
 
     return user

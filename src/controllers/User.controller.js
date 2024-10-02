@@ -34,7 +34,7 @@ class UserController {
         
         await modifyUserService({ nome, username, email, password }, id);
 
-        return res.status(200).send("User modify successfully");
+        return res.status(204).send("User modify successfully");
     }
     
     static async deleteUser(req, res) {
